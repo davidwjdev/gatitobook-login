@@ -1,3 +1,4 @@
+import { API_PATH } from './../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -6,13 +7,12 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AutenticacaoService {
-  API_PATH = 'http://localhost:3000/';
 
 
   constructor(private httpCliente: HttpClient) { }
 
   autenticar(usuario: string, senha:string): Observable<any>{
-    return this.httpCliente.post(`${this.API_PATH}user/login`,{
+    return this.httpCliente.post(`${API_PATH}user/login`,{
       userName: usuario,
       password: senha
     });
