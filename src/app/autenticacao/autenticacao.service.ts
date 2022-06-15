@@ -12,7 +12,7 @@ export class AutenticacaoService {
   constructor(private httpCliente: HttpClient) { }
 
   autenticar(usuario: string, senha:string): Observable<any>{
-    return this.httpCliente.post(`${this.API_PATH}/user/login`,{
+    return this.httpCliente.post(`${this.API_PATH}user/login`,{
       userName: usuario,
       password: senha
     });
