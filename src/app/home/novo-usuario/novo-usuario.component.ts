@@ -1,3 +1,4 @@
+import { UsuarioExisteService } from './usuario-existe.service';
 import { NovoUsuarioService } from './novo-usuario.service';
 import { NovoUsuario } from './novo-usuario';
 import { Component, OnInit } from '@angular/core';
@@ -13,13 +14,13 @@ export class NovoUsuarioComponent implements OnInit {
 
   novoUsuarioForm!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private novoUsuarioService: NovoUsuarioService) { }
+  constructor(private formBuilder: FormBuilder, private novoUsuarioService: NovoUsuarioService, private usuarioExistenteService: UsuarioExisteService) { }
 
   ngOnInit(): void {
     this.novoUsuarioForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       fullName: ['', [Validators.required, Validators.minLength(4)]],
-      userName: ['', [minusculoValidator]],
+      userName: ['', [minusculoValidator],[this.usuarioExistenteService.usuarioJaExiste()]],
       password: ['']
     })
   }
@@ -27,5 +28,9 @@ export class NovoUsuarioComponent implements OnInit {
   cadastrar(){
     const novoUsuario = this.novoUsuarioForm.getRawValue() as NovoUsuario;
     console.log(novoUsuario);
+    this.novoUsuarioService.cadastraNovoUsuario(novoUsuario).subscribe({
+      next: () => console.log('cadastrou com sucesso'),
+      error: (e) => console.error(e),
+    })
   }
 }
