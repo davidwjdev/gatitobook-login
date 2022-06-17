@@ -4,6 +4,7 @@ import { NovoUsuario } from './novo-usuario';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { minusculoValidator } from './minusculo.validator';
+import { usuarioSenhaIguaisValidator } from './usuario-senha-iguais.validator';
 
 @Component({
   selector: 'app-novo-usuario',
@@ -21,8 +22,11 @@ export class NovoUsuarioComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       fullName: ['', [Validators.required, Validators.minLength(4)]],
       userName: ['', [minusculoValidator],[this.usuarioExistenteService.usuarioJaExiste()]],
-      password: ['']
-    })
+      password: ['', ]
+    },{
+      validators: [usuarioSenhaIguaisValidator.usuarioSenhaIguais]
+    });
+
   }
 
   cadastrar(){
